@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  text:
+    image: node:7.5.0-alpine
+    command: node index.js
+    volumes:
+      - .:/app
+    working_dir: /app
+    environment:
+      DBPORT: 6379
+      DBHOST: redis
+      ADMIN: thanh
+      PASSWORD: changethis
+    links:
+      - redis
+  redis:
+    image: redis:3.0.7-alpine
+    command: redis-server /app/redis.conf 
+    volumes:
+      - .:/app
+      - /data/
+      
