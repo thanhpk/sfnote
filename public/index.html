@@ -1,0 +1,113 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="styles/fontawesome.min.css"/>
+		<link rel="stylesheet" href="styles/simplemde.min.css"/>
+		<link rel="stylesheet" href="styles/app.css"/>
+		<script src="scripts/simplemde.min.js"></script>
+		
+	</head>
+	<body>
+
+		<textarea id="texteditor" style="display:none"></textarea>
+		<script>
+
+
+function throttle(fn, threshhold, scope) {
+  threshhold || (threshhold = 250);
+  var last,
+      deferTimer;
+  return function () {
+    var context = scope || this;
+
+    var now = +new Date,
+        args = arguments;
+    if (last && now < last + threshhold) {
+      // hold on to it
+      clearTimeout(deferTimer);
+      deferTimer = setTimeout(function () {
+        last = now;
+        fn.apply(context, args);
+      }, threshhold);
+    } else {
+      last = now;
+      fn.apply(context, args);
+											}
+											}
+											};
+var request = new XMLHttpRequest();
+request.onreadystatechange = function() {
+  if (request.readyState == XMLHttpRequest.DONE) {
+		if (request.status !== 200) {
+			showWarning();
+			return;
+		}
+		if (listkey) {
+			document.getElementById("texteditor").remove();
+			keys = JSON.parse(request.responseText);
+			for (var i in keys) {
+				var key = keys[i];
+
+				var br = document.createElement('br');
+				var a = document.createElement('a');
+				a.setAttribute('href', "/" + key);
+				a.innerHTML=key;
+				document.body.appendChild(a);
+				document.body.appendChild(br);
+			}
+			return;
+											}
+											var simplemde = new SimpleMDE({autoDownloadFontAwesome: false, indentWithTabs: true, spellChecker:false, element: document.getElementById("texteditor") });
+											
+											var stateNode = document.createElement("div");
+stateNode.id = 'state';
+document.body.appendChild(stateNode);
+
+document.getElementsByClassName('editor-toolbar')[0].appendChild(stateNode);
+
+    simplemde.value(request.responseText);
+		hideLoading();
+		simplemde.codemirror.on("change", throttle(function() {
+			showLoading();
+			var request = new XMLHttpRequest();
+			request.onreadystatechange = function() {
+				if (request.readyState == XMLHttpRequest.DONE) {
+					if (request.status == 200) {
+						hideLoading();
+					} else {
+						showWarning();
+					}
+				}
+			};
+			
+			request.open('POST', '/save' + window.location.pathname, true);
+			request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+			request.send("content="+ encodeURIComponent(simplemde.value()));
+			
+		}, 1000));
+	}
+};
+
+var listkey = false;
+if (window.location.pathname !== undefined && window.location.pathname !== '/' && window.location.pathname !== '') {
+	request.open('POST', '/read' + window.location.pathname, true);
+} else {
+	listkey = true;
+	request.open('POST', '/keys', true);
+}
+request.send(null);
+
+function showLoading() {
+	document.getElementById('state').innerHTML = 'saving...';
+}
+
+function hideLoading() {
+	document.getElementById('state').innerHTML = '<span class="fa fa-check" style="color:#35c035"></span>';
+}
+
+function showWarning() {
+	document.getElementById('state').innerHTML = '<span class="fa fa-exclamation-triangle" style="color:yellow"></span>';
+}
+
+</script>
+	</body>
+</html>

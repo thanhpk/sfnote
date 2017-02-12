@@ -1,0 +1,40 @@
+CodeMirror, .CodeMirror-scroll {
+    min-height: 200px;
+}
+
+.editor-toolbar {
+		border: none;
+}
+
+.CodeMirror {
+		background: #fcfcfc;
+		padding-top: 1px;
+		padding-bottom: 0;
+		padding-left: 5px;
+		padding-right: 5px;
+		height: 608px;
+		border: none;
+}
+
+body {
+		margin: 0;
+}
+
+.CodeMirror-code {
+		font-family: 'envy code r', monospace;
+    font-size: 12;
+}
+
+.editor-toolbar:before {
+		margin-bottom: 2px;
+}
+
+.editor-toolbar:after {
+		margin-top: 2px;
+}
+
+#state {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+}
