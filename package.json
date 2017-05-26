@@ -4,7 +4,9 @@
   "description": "[Use it here](//jbt.github.io/markdown-editor)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +16,8 @@
     "express": "^4.14.1",
     "express-rate-limit": "^2.6.0",
     "redis": "^2.6.5",
-    "socket.io": "^1.7.2"
-  }
+    "socket.io": "^2.0.0",
+    "snyk": "^1.30.1"
+  },
+  "snyk": true
 }
