@@ -38,3 +38,19 @@ body {
 		right: 10px;
 		top: 10px;
 }
+
+code {
+background: #555;
+color: white;
+padding-bottom: 2px;
+padding-top: 2px;
+padding-left: 10px;
+padding-right: 10px;
+border-radius: 3px;
+}
+.editor-preview pre {
+background: #555;
+color: white;
+padding: 10px;
+border-radius: 3px;
+}

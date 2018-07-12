@@ -1,14 +1,15 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="styles/fontawesome.min.css"/>
-		<link rel="stylesheet" href="styles/simplemde.min.css"/>
-		<link rel="stylesheet" href="styles/app.css"/>
-		<script src="scripts/simplemde.min.js"></script>
+		<link rel="stylesheet" href="/public/styles/fontawesome.min.css"/>
+		<link rel="stylesheet" href="/public/styles/simplemde.min.css"/>
+		<link rel="stylesheet" href="/public/styles/app.css"/>
 		
 	</head>
 	<body>
 
 		<textarea id="texteditor" style="display:none"></textarea>
+<script src="/public/scripts/simplemde.min.js"></script>
+
 		<script>
 
 
@@ -56,7 +57,7 @@ request.onreadystatechange = function() {
 			}
 			return;
 											}
-											var simplemde = new SimpleMDE({autoDownloadFontAwesome: false, indentWithTabs: true, spellChecker:false, element: document.getElementById("texteditor") });
+var simplemde = new SimpleMDE({autoDownloadFontAwesome:false, indentWithTabs: true, spellChecker:false, element: document.getElementById("texteditor") });
 											
 											var stateNode = document.createElement("div");
 stateNode.id = 'state';

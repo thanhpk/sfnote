@@ -11,7 +11,7 @@ services:
       DBPORT: 6379
       DBHOST: redis
       ADMIN: thanh
-      PASSWORD: changethis
+      PASSWORD: changeme
     links:
       - redis
   redis:
@@ -19,5 +19,7 @@ services:
     command: redis-server /app/redis.conf 
     volumes:
       - .:/app
-      - /data/
+      - redis-data:/data/
       
+volumes:
+  redis-data:

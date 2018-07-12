@@ -28,20 +28,15 @@ var limiter = new RateLimit({
 //  apply to all requests 
 app.use('/save/', limiter);
 app.use(bodyParser());
-app.use(express.static('public'));
 
-app.use(basicAuth(function(username, password, cb) {
-	if (username == ADMIN && password == PASSWORD) {
-		cb(null, true);
-	} else {
-		cb("wrong username password");
-	}
-}));
+//app.use(basicAuth(function(username, password, cb) {
+//	if (username == ADMIN && password == PASSWORD) {
+//		cb(null, true);
+//	} else {
+//		cb("wrong username password");
+//	}
+//}));
 
-// viewed at http://localhost:8080
-app.get('/*?', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/index.html'));
-});
 
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
@@ -57,6 +52,22 @@ db.on('connect', function() {
 			res.send(keys);
 		});
 	});
+
+	app.post('/callback', function(req, res) {
+		console.log(req.body, req.params);
+		res.status(200).end();
+	});
+
+app.get('/webhook', function(req, res) {
+  if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === '123') {
+    console.log("Validating webhook");
+    res.status(200).send(req.query['hub.challenge']);
+  } else {
+    console.error("Failed validation. Make sure the validation tokens match.");
+    res.sendStatus(403);
+  }  
+});
+
 	
 	app.post('/read/:path*?', function(req, res) {
 		db.get(req.params.path || "", function(err, reply) {
@@ -87,6 +98,12 @@ db.on('connect', function() {
 			res.status(200).send();
 		});
 	});
+
+// viewed at http://localhost:8080
+app.get('/*?', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/index.html'));
+});
+
 
 	http.listen(3000, '0.0.0.0', function() {
 		console.log('listening on *:3000');
