@@ -10,10 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "basic-auth-connect": "^1.0.0",
-    "body-parser": "^1.16.1",
-    "express": "^4.14.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.0",
     "express-rate-limit": "^2.6.0",
     "redis": "^2.6.5",
-    "socket.io": "^1.7.2"
+    "socket.io": "^1.7.4"
   }
 }
